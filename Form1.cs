@@ -6,9 +6,9 @@ using System.Drawing;
 using System.Linq;
 using System.Runtime.InteropServices.ComTypes;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-//suaveestuvoya
 
 
 namespace Proyecto_Final_U1
@@ -22,22 +22,37 @@ namespace Proyecto_Final_U1
 
         //Elemento Botones Pares
         Button pares;
+
         //Lista Botones Pares
         List<Button> principalesPares = new List<Button>();
 
         //Elemento Botones Impares
         Button impares;
+
         //Lista Botones Impares
         List<Button> principalesImpares = new List<Button>();
 
-        //Generar Botones principales
-        //Iniciar timer
+        //Generador de numeros aleatorios
+        Random ale = new Random();
+
+        //Arreglo de direcciones
+        string[] direccion = { "derecha", "izquierda", "abajo", "arriba" };
+
+        bool impacto = false;
+
+        /*Generar Botones principales
+         Agrega los botones a principales las listas pares e impares
+        para poder borrarlos al momento de cumplirse ciertas condiciones
+        Agrega todas las caracteristicas a los botes
+        Despliega botones y manda a llamar al metodo
+        movimientos para comenzar*/
         private void PantallaPrincipal_Load(object sender, EventArgs e)
         {
             //Generar botones PARES principales
             for(int p =0; p < 2; p++)
             {
                 int valorPar = (ale.Next(1, 6) * 2);
+
                 //Diseño de los botones
                 pares = new Button
                 {
@@ -45,15 +60,23 @@ namespace Proyecto_Final_U1
                     Name = "" + direccion[ale.Next(4)],
                     //generar indice aleatorio par
                     Text = "" + valorPar,
+                    //alineamiento de texto
                     TextAlign = ContentAlignment.MiddleCenter,
+                    //color de fuente
                     ForeColor = Color.WhiteSmoke,
+                    //color de boton
                     BackColor= Color.Black,
+                    //tamaño de boton
                     Size = new Size(40, 40),
+                    //tipo de fuente
                     Font = new Font("Yu Gothic UI", 14.25F, FontStyle.Bold, GraphicsUnit.Point, ((byte)(0))),
+                    //localizacion de boton
                     Location = new Point(ale.Next(0, (this.ClientSize.Width - 40)), ale.Next(0, (this.ClientSize.Height - 40)))
                 };
+                //apariencia de borde
                 pares.FlatAppearance.BorderSize = 0;
                 pares.FlatStyle = FlatStyle.Flat;
+                //asignacion de un valor a propiedad Tag
                 pares.Tag = valorPar;
                 pares.ClientSize = new Size(40, 40);
 
@@ -97,11 +120,6 @@ namespace Proyecto_Final_U1
             ttMovimiento.Start();
 
         }
-
-        Random ale = new Random();
-
-        //Arreglo de direcciones
-        string[] direccion = { "derecha", "izquierda", "abajo", "arriba" };
 
         //Movimiento de botones generados 
         public void MovBtns(Control name, string op)
@@ -184,7 +202,7 @@ namespace Proyecto_Final_U1
             //buscar los botones en la lista 
             foreach (Button pares in principalesPares)
             {
-                //LLaamada al metodo para mover los botones
+                //LLamada al metodo para mover los botones
                 MovBtns(pares, pares.Name);//boton actual, la direccion del boton actual
                                            //    lbl.Text = lbl.Text + "" + pares.Name + "  " + pares.Text + "   " + pares.Tag + "\n";
             }
@@ -203,48 +221,138 @@ namespace Proyecto_Final_U1
             Choque(/*pares, impares*/);
             //    }
             //}
-
+            ReiniciarForma();
+            CambiarColor();
         }
-
-        bool impacto = false;
+        public void CambiarColor()
+        {
+            if ((principalesPares.Count + principalesImpares.Count) > 50)
+            {
+                BackColor = Color.Red;
+            }
+            else
+            {
+                BackColor = Color.Teal;
+            }
+        }
+        public void ReiniciarForma()
+        {
+            if (principalesImpares.Count < 0)
+            {
+                MessageBox.Show("YA NO HAY BOTONEES IMPARES");
+            }
+            else if (principalesPares.Count < 0)
+            {
+                MessageBox.Show("YA NO HAY BOTONES PARES");
+            }
+            //Application.Restart();
+        }
         //Choque de botones
         public void Choque(/*Control pares, Control impares*/)
         {
+            //for (int x = 0; x < principalesPares.Count; x++)
+            //{
+            //    for (int y = 0; y < principalesImpares.Count; y++)
+            //    {
+            //        if (principalesPares[x].Bounds.IntersectsWith(principalesImpares[y].Bounds) && impacto == false)
+            //        {
+            //            lbl.Text = "par impar";
+
+            //            int a = (int)pares.Tag;
+            //            int b = (int)impares.Tag;
+            //            generarBotones("pares", (a + b));
+            //            impacto = true;
+            //            RepelerPares(principalesPares[x].Name, x);
+            //            RepelerImpares(principalesImpares[y].Name, y);
+            //        }
+            //    }
+            //    impacto = false;
+            //}
+
+            for (int x = 0; x < principalesPares.Count - 1; x++)
+            {
+                if (principalesPares[x].Bounds.IntersectsWith(principalesPares[x + 1].Bounds) && impacto == false)
+                {
+                    lbl.Text = "par con par";
+
+                    int a = (int)pares.Tag;
+                    int b = (int)pares.Tag;
+                    generarBotones("pares", (a + b));
+                    impacto = true;
+                    RepelerPares(principalesPares[x].Name, x);
+                    RepelerPares(principalesPares[x + 1].Name, x + 1);
+                }
+                impacto = false;
+            }
+
+
+            //for (int x = 0; x < principalesImpares.Count - 1; x++)
+            //{
+            //    if (principalesImpares[x].Bounds.IntersectsWith(principalesImpares[x + 1].Bounds) && impacto == false)
+            //    {
+            //        lbl.Text = "par con par";
+
+            //        int a = (int)impares.Tag;
+            //        int b = (int)impares.Tag;
+            //        generarBotones("impares", (a + b));
+            //        impacto = true;
+            //        RepelerImpares(principalesImpares[x].Name, x);
+            //        RepelerImpares(principalesImpares[x + 1].Name, x + 1);
+            //    }
+            //    impacto = false;
+            //}
+
             for (int x = 0; x < principalesPares.Count; x++)
             {
                 for (int y = 0; y < principalesImpares.Count; y++)
                 {
                     if (principalesPares[x].Bounds.IntersectsWith(principalesImpares[y].Bounds) && impacto == false)
                     {
+                        
                         lbl.Text = "par impar";
 
                         int a = (int)pares.Tag;
                         int b = (int)impares.Tag;
-                        generarBotones("pares", (a + b));
-                        impacto= true;
-                        RepelerPares(principalesPares[x].Name, x);
-                        RepelerImpares(principalesImpares[y].Name, y);
+                        if (a > b)
+                        {
+                            eliminarBotones("pares", a);
+                        }
+                        else
+                        {
+                            eliminarBotones("impares", b);
+                        }
                     }
-                    
                 }
                 impacto = false;
             }
 
-            //if (pares.Bounds.IntersectsWith(pares.Bounds))
+            //for (int x = 0; x < principalesPares.Count; x++)
             //{
-            //    int a = (int)pares.Tag;
-            //    int b = (int)pares.Tag;
-            //    lbl.Text = "pares";
-            //    lbl.Visible = true;
-            //    generarBotones("pares", (a + b));
+            //    if (x < principalesPares.Count - 1)
+            //    {
+            //        lbl.Text = "par con par";
 
-            //}
-            //if (impares.Bounds.IntersectsWith(impares.Bounds))
-            //{
-            //    lbl.Text = "impares";
-            //    int a = (int)impares.Tag;
-            //    int b = (int)impares.Tag;
-            //    generarBotones("impares", (a + b));
+            //        int a = (int)pares.Tag;
+            //        int b = (int)pares.Tag;
+            //        generarBotones("pares", (a + b));
+            //        impacto = true;
+            //        for (int y = 0; y < principalesImpares.Count; y++)
+            //        {
+            //            if (y < principalesImpares.Count - 1)
+            //            {
+            //                lbl.Text = "par con par";
+
+            //                int c = (int)impares.Tag;
+            //                int d = (int)impares.Tag;
+            //                generarBotones("pares", (a + b));
+            //                impacto = true;
+            //            }
+            //           if(x == y)
+            //            {
+
+            //            }
+            //        }
+            //    }
             //}
         }
 
@@ -339,7 +447,32 @@ namespace Proyecto_Final_U1
                     this.Controls.Add(impares);
                 }
             }
+        }
 
+        public void eliminarBotones(string tipo, int cantidad)
+        {
+            if (tipo == "pares")
+            {
+                for (int p = 0; p <1/*cantidad*/; p++)
+                {                 
+                    //Eliminar botones valorPar la lista
+                    principalesPares.Remove(pares);
+
+                    //Agregar botones valorPar la forma
+                    this.Controls.Remove(pares);
+                }
+            }
+            else if (tipo == "impares")
+            {
+                for (int i = 0; i < 1; i++)
+                {                  
+                    //Agregar botones valorPar la lista
+                    principalesImpares.Remove(impares);
+
+                    //Agregar botones valorPar la forma
+                    this.Controls.Remove(impares);
+                }
+            }
         }
     }
 }
