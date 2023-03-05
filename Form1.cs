@@ -240,12 +240,14 @@ namespace Proyecto_Final_U1
             if (principalesImpares.Count < 0)
             {
                 MessageBox.Show("YA NO HAY BOTONEES IMPARES");
+                Application.Restart();
             }
             else if (principalesPares.Count < 0)
             {
                 MessageBox.Show("YA NO HAY BOTONES PARES");
+                Application.Restart();
             }
-            //Application.Restart();
+
         }
         //Choque de botones
         public void Choque(/*Control pares, Control impares*/)
@@ -286,21 +288,21 @@ namespace Proyecto_Final_U1
             }
 
 
-            //for (int x = 0; x < principalesImpares.Count - 1; x++)
-            //{
-            //    if (principalesImpares[x].Bounds.IntersectsWith(principalesImpares[x + 1].Bounds) && impacto == false)
-            //    {
-            //        lbl.Text = "par con par";
+            for (int x = 0; x < principalesImpares.Count - 1; x++)
+            {
+                if (principalesImpares[x].Bounds.IntersectsWith(principalesImpares[x + 1].Bounds) && impacto == false)
+                {
+                    lbl.Text = "par con par";
 
-            //        int a = (int)impares.Tag;
-            //        int b = (int)impares.Tag;
-            //        generarBotones("impares", (a + b));
-            //        impacto = true;
-            //        RepelerImpares(principalesImpares[x].Name, x);
-            //        RepelerImpares(principalesImpares[x + 1].Name, x + 1);
-            //    }
-            //    impacto = false;
-            //}
+                    int a = (int)impares.Tag;
+                    int b = (int)impares.Tag;
+                    generarBotones("impares", (a + b));
+                    impacto = true;
+                    RepelerImpares(principalesImpares[x].Name, x);
+                    RepelerImpares(principalesImpares[x + 1].Name, x + 1);
+                }
+                impacto = false;
+            }
 
             for (int x = 0; x < principalesPares.Count; x++)
             {
@@ -315,11 +317,11 @@ namespace Proyecto_Final_U1
                         int b = (int)impares.Tag;
                         if (a > b)
                         {
-                            eliminarBotones("pares", a);
+                            eliminarBotones("impares", a);
                         }
                         else
                         {
-                            eliminarBotones("impares", b);
+                            eliminarBotones("pares", b);
                         }
                     }
                 }
@@ -465,11 +467,11 @@ namespace Proyecto_Final_U1
             else if (tipo == "impares")
             {
                 for (int i = 0; i < 1; i++)
-                {                  
-                    //Agregar botones valorPar la lista
+                {
+                    //Eliminar botones valorImpar la lista
                     principalesImpares.Remove(impares);
 
-                    //Agregar botones valorPar la forma
+                    //Eliminar botones valorImpar la forma
                     this.Controls.Remove(impares);
                 }
             }
