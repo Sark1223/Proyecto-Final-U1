@@ -252,65 +252,53 @@ namespace Proyecto_Final_U1
         //Choque de botones
         public void Choque(/*Control pares, Control impares*/)
         {
-            //for (int x = 0; x < principalesPares.Count; x++)
-            //{
-            //    for (int y = 0; y < principalesImpares.Count; y++)
-            //    {
-            //        if (principalesPares[x].Bounds.IntersectsWith(principalesImpares[y].Bounds) && impacto == false)
-            //        {
-            //            lbl.Text = "par impar";
-
-            //            int a = (int)pares.Tag;
-            //            int b = (int)impares.Tag;
-            //            generarBotones("pares", (a + b));
-            //            impacto = true;
-            //            RepelerPares(principalesPares[x].Name, x);
-            //            RepelerImpares(principalesImpares[y].Name, y);
-            //        }
-            //    }
-            //    impacto = false;
-            //}
-
-            for (int x = 0; x < principalesPares.Count - 1; x++)
-            {
-                if (principalesPares[x].Bounds.IntersectsWith(principalesPares[x + 1].Bounds) && impacto == false)
-                {
-                    lbl.Text = "par con par";
-
-                    int a = (int)pares.Tag;
-                    int b = (int)pares.Tag;
-                    generarBotones("pares", (a + b));
-                    impacto = true;
-                    RepelerPares(principalesPares[x].Name, x);
-                    RepelerPares(principalesPares[x + 1].Name, x + 1);
-                }
-                impacto = false;
-            }
-
-
-            for (int x = 0; x < principalesImpares.Count - 1; x++)
-            {
-                if (principalesImpares[x].Bounds.IntersectsWith(principalesImpares[x + 1].Bounds) && impacto == false)
-                {
-                    lbl.Text = "par con par";
-
-                    int a = (int)impares.Tag;
-                    int b = (int)impares.Tag;
-                    generarBotones("impares", (a + b));
-                    impacto = true;
-                    RepelerImpares(principalesImpares[x].Name, x);
-                    RepelerImpares(principalesImpares[x + 1].Name, x + 1);
-                }
-                impacto = false;
-            }
-
+            //Ciclo for para recorrer todos nuestro BOTONES PARES
             for (int x = 0; x < principalesPares.Count; x++)
             {
+                //si x esta en el penultimo boton par 
+                if(x< principalesPares.Count - 1)
+                {
+                    //comparra si esta chocando la el boton par actual con el predecesor
+                    if (principalesPares[x].Bounds.IntersectsWith(principalesPares[x + 1].Bounds) && impacto == false)
+                    {
+                        lbl.Text = "par con par";
+
+                        int a = (int)pares.Tag;
+                        int b = (int)pares.Tag;
+                        generarBotones("pares", (a + b));
+                        //impacto = true;
+                        RepelerPares(principalesPares[x].Name, x);
+                        RepelerPares(principalesPares[x + 1].Name, x + 1);
+                    }
+                    
+                    //impacto = true;
+                }
+
+                //Ciclo for para recorrer todos nuestro BOTONES IMPARES
                 for (int y = 0; y < principalesImpares.Count; y++)
                 {
+                    //si x esta en el penultimo boton impar 
+                    if (y < principalesImpares.Count - 1)
+                    {
+                        //comparra si esta chocando la el boton impar actual con el predecesor
+                        if (principalesImpares[y].Bounds.IntersectsWith(principalesImpares[y + 1].Bounds) && impacto == false)
+                        {
+                            lbl.Text = "par con par";
+
+                            int a = (int)impares.Tag;
+                            int b = (int)impares.Tag;
+                            generarBotones("impares", (a + b));
+                            //impacto = true;
+                            RepelerImpares(principalesImpares[x].Name, x);
+                            RepelerImpares(principalesImpares[x + 1].Name, x + 1);
+                        }
+                        //impacto = false;
+                    }
+
+                    //comprobar si un par esta chocando con un impar
                     if (principalesPares[x].Bounds.IntersectsWith(principalesImpares[y].Bounds) && impacto == false)
                     {
-                        
+
                         lbl.Text = "par impar";
 
                         int a = (int)pares.Tag;
@@ -324,40 +312,18 @@ namespace Proyecto_Final_U1
                             eliminarBotones("pares", b);
                         }
                     }
-                }
-                impacto = false;
-            }
 
-            //for (int x = 0; x < principalesPares.Count; x++)
-            //{
-            //    if (x < principalesPares.Count - 1)
-            //    {
-            //        lbl.Text = "par con par";
+                }//fin ciclo for impares
 
-            //        int a = (int)pares.Tag;
-            //        int b = (int)pares.Tag;
-            //        generarBotones("pares", (a + b));
-            //        impacto = true;
-            //        for (int y = 0; y < principalesImpares.Count; y++)
-            //        {
-            //            if (y < principalesImpares.Count - 1)
-            //            {
-            //                lbl.Text = "par con par";
+            }//fin ciclo for pares
 
-            //                int c = (int)impares.Tag;
-            //                int d = (int)impares.Tag;
-            //                generarBotones("pares", (a + b));
-            //                impacto = true;
-            //            }
-            //           if(x == y)
-            //            {
 
-            //            }
-            //        }
-            //    }
-            //}
+            
+
+            
         }
 
+        //metodo para hacer rebotar los botones entre ellos
         public void RepelerPares(string dire, int actual)
         {
             string cambio = direccion[ale.Next(4)];
@@ -372,6 +338,7 @@ namespace Proyecto_Final_U1
             }
         }
 
+        //metodo para hacer rebotar los botones entre ellos
         public void RepelerImpares(string dire, int actual)
         {
             string cambio = direccion[ale.Next(4)];
@@ -386,6 +353,7 @@ namespace Proyecto_Final_U1
             }
         }
 
+        //Metodo para generar botones en caso de que choquen 
         public void generarBotones(string tipo, int cantidad)
         {
             if (tipo == "pares")
@@ -478,3 +446,63 @@ namespace Proyecto_Final_U1
         }
     }
 }
+//CHOQUE
+
+//for (int x = 0; x < principalesPares.Count; x++)
+//{
+//    for (int y = 0; y < principalesImpares.Count; y++)
+//    {
+//        if (principalesPares[x].Bounds.IntersectsWith(principalesImpares[y].Bounds) && impacto == false)
+//        {
+//            lbl.Text = "par impar";
+
+//            int a = (int)pares.Tag;
+//            int b = (int)impares.Tag;
+//            generarBotones("pares", (a + b));
+//            impacto = true;
+//            RepelerPares(principalesPares[x].Name, x);
+//            RepelerImpares(principalesImpares[y].Name, y);
+//        }
+//    }
+//    impacto = false;
+//}
+
+
+
+//for (int x = 0; x < principalesPares.Count; x++)
+//{
+//    for (int y = 0; y < principalesImpares.Count; y++)
+//    {
+
+//    }
+//    impacto = false;
+//}
+
+//for (int x = 0; x < principalesPares.Count; x++)
+//{
+//    if (x < principalesPares.Count - 1)
+//    {
+//        lbl.Text = "par con par";
+
+//        int a = (int)pares.Tag;
+//        int b = (int)pares.Tag;
+//        generarBotones("pares", (a + b));
+//        impacto = true;
+//        for (int y = 0; y < principalesImpares.Count; y++)
+//        {
+//            if (y < principalesImpares.Count - 1)
+//            {
+//                lbl.Text = "par con par";
+
+//                int c = (int)impares.Tag;
+//                int d = (int)impares.Tag;
+//                generarBotones("pares", (a + b));
+//                impacto = true;
+//            }
+//           if(x == y)
+//            {
+
+//            }
+//        }
+//    }
+//}
