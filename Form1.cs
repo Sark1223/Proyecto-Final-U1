@@ -237,12 +237,12 @@ namespace Proyecto_Final_U1
         }
         public void ReiniciarForma()
         {
-            if (principalesImpares.Count < 0)
+            if (principalesImpares.Count == 0)
             {
                 MessageBox.Show("YA NO HAY BOTONEES IMPARES");
                 Application.Restart();
             }
-            else if (principalesPares.Count < 0)
+            else if (principalesPares.Count ==0)
             {
                 MessageBox.Show("YA NO HAY BOTONES PARES");
                 Application.Restart();
@@ -306,10 +306,12 @@ namespace Proyecto_Final_U1
 
                         if (a > b)
                         {
+                            principalesImpares.Remove(principalesImpares[y]);
                             EliminarBotones("impares", a);
                         }
-                        else
+                        else if( b > a)
                         {
+                            principalesPares.Remove(principalesPares[x]);
                             EliminarBotones("pares", b);
                         }
                     }
@@ -445,7 +447,6 @@ namespace Proyecto_Final_U1
                         //Agregar botones valorPar la forma
                         this.Controls.Remove(pares);
                     }
-
                     MessageBox.Show("YA NO HAY BOTONEES PARES");
                     Application.Restart();
                 }
@@ -477,8 +478,6 @@ namespace Proyecto_Final_U1
                         //Agregar botones valorPar la forma
                         this.Controls.Remove(impares);
                     }
-
-                    
 
                     MessageBox.Show("YA NO HAY BOTONEES IMPARES");
                     Application.Restart();
@@ -547,4 +546,22 @@ namespace Proyecto_Final_U1
 //            }
 //        }
 //    }
+//}
+
+//ELIMINAR BOTONES ALEATORIAMENTE
+//for (int p = 0; p < 1/*cantidad*/; p++)
+//{
+//    //Eliminar botones valorPar la lista
+//    principalesPares.Remove(principalesPares[ale.Next(0, principalesPares.Count() + 1)]);
+
+//    //Agregar botones valorPar la forma
+//    this.Controls.Remove(pares);
+//}
+//for (int p = 0; p < cantidadDisponible; p++)
+//{
+//    //Eliminar botones valorPar la lista
+//    principalesPares.Remove(principalesPares[ale.Next(0, principalesPares.Count() + 1)]);
+
+//    //Agregar botones valorPar la forma
+//    this.Controls.Remove(pares);
 //}
