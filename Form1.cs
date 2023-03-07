@@ -306,12 +306,14 @@ namespace Proyecto_Final_U1
 
                         if (a > b)
                         {
-                            principalesImpares.Remove(principalesImpares[y]);
+                            //remueve el boton impar que choco con el boton par con mayor indice
+                            //principalesImpares.Remove(principalesImpares[y]);
                             EliminarBotones("impares", a);
                         }
                         else if( b > a)
                         {
-                            principalesPares.Remove(principalesPares[x]);
+                            //remueve el boton par con que choco con el boton impar con mayor indice
+                            //principalesPares.Remove(principalesPares[x]);
                             EliminarBotones("pares", b);
                         }
                     }
