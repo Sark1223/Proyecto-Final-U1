@@ -392,7 +392,8 @@ namespace Proyecto_Final_U1
                             if (valorPar > valorImpar)
                             {
                                 //remueve el boton impar que choco con el boton par con mayor indice
-                                //principalesImpares.Remove(principalesImpares[y]);
+                                this.Controls.Remove(principalesImpares[y]);
+                                principalesImpares.RemoveAt(y);
 
                                 //eliminara tantos botones impares como su indice indica
                                 EliminarBotones("impares", valorPar);
@@ -400,7 +401,8 @@ namespace Proyecto_Final_U1
                             else
                             {
                                 //remueve el boton par con que choco con el boton impar con mayor indice
-                                //principalesPares.Remove(principalesPares[x]);
+                                this.Controls.Remove(principalesPares[x]);
+                                principalesPares.RemoveAt(x);
                                 EliminarBotones("pares", valorImpar);
                             }
                         }
