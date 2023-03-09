@@ -9,7 +9,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-
+//trabajos simultaneos
 //trabajo simultaneo
 
 namespace Proyecto_Final_U1
