@@ -10,8 +10,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-//trabajo simultaneo
-
 namespace Proyecto_Final_U1
 {
     public partial class PantallaPrincipal : Form
