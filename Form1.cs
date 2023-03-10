@@ -39,7 +39,6 @@ namespace Proyecto_Final_U1
         //Arreglo de direcciones
         string[] direccion = { "derecha", "izquierda", "abajo", "arriba" };
 
-        bool impacto = false;
 
         /*Generar Botones principales
          Agrega los botones a principales las listas pares e impares
@@ -92,6 +91,7 @@ namespace Proyecto_Final_U1
             for (int i = 0; i < 2; i++)
             {
                 int valorImpar = ((ale.Next(1, 6) * 2) - 1); 
+                
                 //Diseño de los botones
                 impares = new Button
                 {
@@ -111,7 +111,7 @@ namespace Proyecto_Final_U1
                 impares.Tag = valorImpar;
                 impares.ClientSize = new Size(40, 40);
 
-                //Agregar botones valorPar la lista
+                //Agregar botones valorImpar la lista
                 principalesImpares.Add(impares);
 
                 //Agregar botones valorPar la forma
@@ -205,8 +205,8 @@ namespace Proyecto_Final_U1
             {
                 //LLamada al metodo para mover los botones
                 MovBtns(pares, pares.Name);//boton actual, la direccion del boton actual
-                                           //    lbl.Text = lbl.Text + "" + pares.Name + "  " + pares.Text + "   " + pares.Tag + "\n";
             }
+
             //buscar los botones en la lista 
             foreach (Button impares in principalesImpares)
             {
@@ -215,16 +215,13 @@ namespace Proyecto_Final_U1
 
             }
 
-            //foreach (Button pares in principalesPares)
-            //{
-            //    foreach (Button impares in principalesImpares)
-            //    {
-            Choque(/*pares, impares*/);
-            //    }
-            //}
-            //ReiniciarForma();
+            //manda a llamar el metodo choque que comprobara si los botones intersectan
+            Choque();
+
             CambiarColor();
         }
+
+        //Metodo para cambiar el color de la pantalla en caso de que supere los 50 botones
         public void CambiarColor()
         {
             if ((principalesPares.Count + principalesImpares.Count) > 50)
@@ -236,6 +233,8 @@ namespace Proyecto_Final_U1
                 BackColor = Color.Teal;
             }
         }
+
+        //Metodo para reiniciar forma si se acaban los botones de algun tipo
         public void ReiniciarForma()
         {
             if (principalesImpares.Count == 0)
@@ -250,86 +249,7 @@ namespace Proyecto_Final_U1
             }
 
         }
-        ////Choque de botones
-        //public void Choque(/*Control pares, Control impares*/)
-        //{
-        //    int pa = principalesPares.Count-1;
-        //    //Ciclo for para recorrer todos nuestro BOTONES PARES
-        //    for (int x = 0; x < pa; x++)
-        //    {
-        //        //si x esta en el penultimo boton par 
-        //        if( x < principalesPares.Count - 2 || (principalesPares.Count == 2 && x == 0))
-        //        {
-        //            //comparra si esta chocando la el boton par actual con el predecesor
-        //            if (principalesPares[x].Bounds.IntersectsWith(principalesPares[x + 1].Bounds) && impacto == false || principalesPares[x + 1].Bounds.IntersectsWith(principalesPares[x].Bounds))
-        //            {
-        //                lbl.Text = "par con par";
-
-        //                int a = (int)principalesPares[x].Tag;
-        //                int b = (int)principalesPares[x + 1].Tag;
-        //                GenerarBotones("pares", (a + b));
-        //                //impacto = true;
-        //                RepelerPares(principalesPares[x].Name, x /*boton actual*/);
-        //                RepelerPares(principalesPares[x + 1].Name, x + 1 /*boton actual*/);
-        //            }
-
-        //            //impacto = true;
-        //        }
-
-        //        //Ciclo for para recorrer todos nuestro BOTONES IMPARES
-        //        int impa = principalesImpares.Count-1;
-        //        for (int y = 0; y < impa; y++)
-        //        {
-        //            //si y esta en el penultimo boton impar 
-        //            if (y < principalesImpares.Count - 2 || (principalesImpares.Count == 2 && y ==0))
-        //            {
-        //                //comparra si esta chocando la el boton impar actual con el predecesor
-        //                if (principalesImpares[y].Bounds.IntersectsWith(principalesImpares[y + 1].Bounds) && impacto == false || principalesImpares[y + 1].Bounds.IntersectsWith(principalesImpares[y].Bounds))
-        //                {
-        //                    lbl.Text = "impar con impar";
-
-        //                    int a = (int)principalesPares[y].Tag;
-        //                    int b = (int)principalesPares[y + 1].Tag;
-        //                    GenerarBotones("impares", (a + b));
-        //                    //impacto = true;
-        //                    RepelerImpares(principalesImpares[y].Name, y /*boton actual*/);
-        //                    RepelerImpares(principalesImpares[y + 1].Name, y + 1/*boton actual*/);
-        //                }
-        //                //impacto = false;
-        //            }
-
-        //            //comprobar si un par esta chocando con un impar
-        //            if (principalesPares[x].Bounds.IntersectsWith(principalesImpares[y].Bounds) && impacto == false)
-        //            {
-
-        //                lbl.Text = "par impar";
-
-        //                int valorPar = (int)principalesPares[x].Tag;
-        //                int valorImpar = (int)principalesImpares[y].Tag;
-
-        //                if (valorPar > valorImpar)
-        //                {
-        //                    //remueve el boton impar que choco con el boton par con mayor indice
-        //                    //principalesImpares.Remove(principalesImpares[y]);
-
-        //                    //eliminara tantos botones impares como su indice indica
-        //                    EliminarBotones("impares", valorPar);
-        //                }
-        //                else
-        //                {
-        //                    //remueve el boton par con que choco con el boton impar con mayor indice
-        //                    //principalesPares.Remove(principalesPares[x]);
-        //                    EliminarBotones("pares",valorImpar);
-        //                }
-        //            }
-
-        //        }//fin ciclo for impares
-
-        //    }//fin ciclo for pares
-
-        //}
-
-        //metodo para hacer rebotar los botones entre ellos
+       
 
         //Choque de botones
         public void Choque(/*Control pares, Control impares*/)
@@ -342,7 +262,7 @@ namespace Proyecto_Final_U1
                 if (x < pa - 2 || (pa == 2 && x == 0))
                 {
                     //comparra si esta chocando la el boton par actual con el predecesor
-                    if (principalesPares[x].Bounds.IntersectsWith(principalesPares[x + 1].Bounds) && impacto == false || principalesPares[x + 1].Bounds.IntersectsWith(principalesPares[x].Bounds))
+                    if (principalesPares[x].Bounds.IntersectsWith(principalesPares[x + 1].Bounds) || principalesPares[x + 1].Bounds.IntersectsWith(principalesPares[x].Bounds))
                     {
                         lbl.Text = "par con par";
 
@@ -365,7 +285,7 @@ namespace Proyecto_Final_U1
                     if (y < impa - 2 || (impa == 2 && y == 0))
                     {
                         //comparra si esta chocando la el boton impar actual con el predecesor
-                        if (principalesImpares[y].Bounds.IntersectsWith(principalesImpares[y + 1].Bounds) && impacto == false || principalesImpares[y + 1].Bounds.IntersectsWith(principalesImpares[y].Bounds))
+                        if (principalesImpares[y].Bounds.IntersectsWith(principalesImpares[y + 1].Bounds) || principalesImpares[y + 1].Bounds.IntersectsWith(principalesImpares[y].Bounds))
                         {
                             lbl.Text = "impar con impar";
 
@@ -376,13 +296,12 @@ namespace Proyecto_Final_U1
                             RepelerImpares(principalesImpares[y].Name, y /*boton actual*/);
                             RepelerImpares(principalesImpares[y + 1].Name, y + 1/*boton actual*/);
                         }
-                        //impacto = false;
                     }
 
                     if(principalesPares.Count > 0 && principalesImpares.Count > 0)
                     {
                         //comprobar si un par esta chocando con un impar
-                        if (principalesPares[x].Bounds.IntersectsWith(principalesImpares[y].Bounds) && impacto == false)
+                        if (principalesPares[x].Bounds.IntersectsWith(principalesImpares[y].Bounds))
                         {
 
                             lbl.Text = "par impar";
@@ -560,12 +479,6 @@ namespace Proyecto_Final_U1
                 {
                     for (int i = 0; i < cantidad; i++)
                     {
-                        ////Eliminar botones valorImpar la lista
-                        //principalesImpares.Remove(impares);
-                        //principalesImpares.RemoveAt(ale.Next(principalesImpares.Count));
-
-                        ////Eliminar botones valorImpar la forma
-                        //this.Controls.Remove(impares);
 
                         int eliImpar = ale.Next(principalesImpares.Count);
 
@@ -581,12 +494,6 @@ namespace Proyecto_Final_U1
 
                     for (int p = 0; p < cantidadDisponible; p++)
                     {
-                        ////Eliminar botones valorPar la lista
-                        //principalesImpares.Remove(impares);
-
-                        ////Agregar botones valorPar la forma
-                        //this.Controls.Remove(impares);
-
                         int eliImpar = ale.Next(principalesImpares.Count);
 
                         //Primero elimina el boton de la forma
@@ -603,81 +510,3 @@ namespace Proyecto_Final_U1
         }
     }
 }
-//CHOQUE
-
-//for (int x = 0; x < principalesPares.Count; x++)
-//{
-//    for (int y = 0; y < principalesImpares.Count; y++)
-//    {
-//        if (principalesPares[x].Bounds.IntersectsWith(principalesImpares[y].Bounds) && impacto == false)
-//        {
-//            lbl.Text = "par impar";
-
-//            int a = (int)pares.Tag;
-//            int b = (int)impares.Tag;
-//            GenerarBotones("pares", (a + b));
-//            impacto = true;
-//            RepelerPares(principalesPares[x].Name, x);
-//            RepelerImpares(principalesImpares[y].Name, y);
-//        }
-//    }
-//    impacto = false;
-//}
-
-
-
-//for (int x = 0; x < principalesPares.Count; x++)
-//{
-//    for (int y = 0; y < principalesImpares.Count; y++)
-//    {
-
-//    }
-//    impacto = false;
-//}
-
-//for (int x = 0; x < principalesPares.Count; x++)
-//{
-//    if (x < principalesPares.Count - 1)
-//    {
-//        lbl.Text = "par con par";
-
-//        int a = (int)pares.Tag;
-//        int b = (int)pares.Tag;
-//        GenerarBotones("pares", (a + b));
-//        impacto = true;
-//        for (int y = 0; y < principalesImpares.Count; y++)
-//        {
-//            if (y < principalesImpares.Count - 1)
-//            {
-//                lbl.Text = "par con par";
-
-//                int c = (int)impares.Tag;
-//                int d = (int)impares.Tag;
-//                GenerarBotones("pares", (a + b));
-//                impacto = true;
-//            }
-//           if(x == y)
-//            {
-
-//            }
-//        }
-//    }
-//}
-
-//ELIMINAR BOTONES ALEATORIAMENTE
-//for (int p = 0; p < 1/*cantidad*/; p++)
-//{
-//    //Eliminar botones valorPar la lista
-//    principalesPares.Remove(principalesPares[ale.Next(0, principalesPares.Count() + 1)]);
-
-//    //Agregar botones valorPar la forma
-//    this.Controls.Remove(pares);
-//}
-//for (int p = 0; p < cantidadDisponible; p++)
-//{
-//    //Eliminar botones valorPar la lista
-//    principalesPares.Remove(principalesPares[ale.Next(0, principalesPares.Count() + 1)]);
-
-//    //Agregar botones valorPar la forma
-//    this.Controls.Remove(pares);
-//}
